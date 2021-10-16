@@ -12,25 +12,31 @@ export default class FileUpload extends Component {
     uploadFile() {
         // Getting the signed url
         axios(
-            "https://m5xlms5onk.execute-api.us-east-2.amazonaws.com/test/presigned-url?fileName=" +
+            "https://scsbe4hdza.execute-api.us-east-2.amazonaws.com/test/presigned-url?fileName=" +
                 this.state.fileToUpload.name
         ).then(response => {
             // Getting the url from response
             const url = response.data.fileUploadURL;
-
+             //alert(url);
             axios({
                 method: "PUT",
                 url: url,
                 data: this.state.fileToUpload,
-                headers: { "Content-Type": "multipart/form-data" }
+                headers: { "Content-Type": "multipart/form-data"}
             })
                 .then(res => {
+		    //alert(res);
                     this.setState({
                         uploadSuccess: "File upload successfull",
                         error: undefined
                     });
                 })
                 .catch(err => {
+			alert(err);
+			//alert(err.code);
+			//alert(err.data);
+			//alert(JSON.stringify(err.response));
+			//alert(JSON.stringify(err.response.headers));
                     this.setState({
                         error: "Error Occured while uploading the file",
                         uploadSuccess: undefined
@@ -43,7 +49,7 @@ export default class FileUpload extends Component {
         return (
             <div className={styles.fileUploadCont}>
                 <div className={styles.header}>
-                    File Upload to S3 with Lambda, And React axios Application
+                    Upload Your Resume Here.
                 </div>
                 <div>
                     <form>
@@ -79,6 +85,7 @@ export default class FileUpload extends Component {
                             </div>
                         </div>
                     </form>
+		<a href="javascript:history.back()">Back</a> 
                 </div>
             </div>
         );
